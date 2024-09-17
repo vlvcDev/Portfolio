@@ -10,22 +10,22 @@ const ProjectsCard = () => {
       id: 1,
       title: 'Roadrunner Connect',
       description: 'A full stack app development internship at MSU Denver.',
-      imageUrl: 'https://via.placeholder.com/150', // Replace with your image URL
-      link: '/one', // Replace with your project's link
+      image: require('../assets/rrc.png'), // Replace with your image path
+      link: '/projects', // Replace with your project's link
     },
     {
       id: 2,
       title: 'Undergraduate Research',
       description: 'Exploring parallel programming by building and testing a Raspberry Pi Cluster.',
-      imageUrl: 'https://via.placeholder.com/150', // Replace with your image URL
-      link: '/two', // Replace with your project's link
+      image: require('../assets/raspberryPi.png'), // Replace with your image path
+      link: '/projects', // Replace with your project's link
     },
     {
       id: 3,
       title: 'SpiderByte',
       description: 'A hackathon winning website built to make practicing programming more fulfilling.',
-      imageUrl: 'https://via.placeholder.com/150', // Replace with your image URL
-      link: '/three', // Replace with your project's link
+      image: require('../assets/hackathon.png'), // Replace with your image path
+      link: '/projects', // Replace with your project's link
     },
   ];
 
@@ -64,14 +64,14 @@ const ProjectsCard = () => {
     <div ref={cardRef} style={styles.card}> {/* Attach ref to the card */}
       <div className="project-card-content" style={styles.content}>
         <img
-          src={projects[currentProject].imageUrl}
+          src={projects[currentProject].image}
           alt={projects[currentProject].title}
           style={styles.image}
         />
         <h2 style={styles.title}>{projects[currentProject].title}</h2>
         <p style={styles.description}>{projects[currentProject].description}</p>
         <a href={projects[currentProject].link} style={styles.viewButton}>
-          View
+          Projects
         </a>
       </div>
       <div style={styles.controls}>
@@ -104,10 +104,11 @@ const styles = {
     textAlign: 'center',
   },
   image: {
-    width: '100%',
-    height: 'auto',
+    width: '20vw',
+    height: '35vh',
     borderRadius: '10px',
     marginBottom: '0vh',
+    objectFit: 'cover',
   },
   title: {
     fontSize: '4vh',
@@ -143,6 +144,7 @@ const styles = {
     padding: '1vw',
     borderRadius: '5px',
     cursor: 'pointer',
+    fontSize: '2.5vh',
   },
 };
 

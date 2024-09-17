@@ -4,6 +4,9 @@ body, html, #root {
   padding: 0;
   height: 100%;
   font-family: 'Arial', sans-serif;
+  overflow-y: auto;
+  overflow-X: hidden; 
+  scrollbar-width: none;
 }
 
 

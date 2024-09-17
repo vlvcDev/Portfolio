@@ -61,7 +61,7 @@ const TechnologiesCard = () => {
         style={styles.titleButton}
         onClick={() => window.location.href = '/technologies'}
       >
-        Technologies
+        Skillset
       </button>
 
       <div style={styles.categoryContainer}>
