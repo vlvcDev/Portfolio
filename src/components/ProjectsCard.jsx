@@ -1,33 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
+import { projectsData } from '../pages/Projects.jsx';
 
 const ProjectsCard = () => {
   const [currentProject, setCurrentProject] = useState(0);
   const cardRef = useRef(null); // Reference for the card
 
-  const projects = [
-    {
-      id: 1,
-      title: 'Roadrunner Connect',
-      description: 'A full stack app development internship at MSU Denver.',
-      image: require('../assets/rrc.png'), // Replace with your image path
-      link: '/projects', // Replace with your project's link
-    },
-    {
-      id: 2,
-      title: 'Undergraduate Research',
-      description: 'Exploring parallel programming by building and testing a Raspberry Pi Cluster.',
-      image: require('../assets/raspberryPi.png'), // Replace with your image path
-      link: '/projects', // Replace with your project's link
-    },
-    {
-      id: 3,
-      title: 'SpiderByte',
-      description: 'A hackathon winning website built to make practicing programming more fulfilling.',
-      image: require('../assets/hackathon.png'), // Replace with your image path
-      link: '/projects', // Replace with your project's link
-    },
-  ];
+  const projects = projectsData;
 
   // Animation for ProjectsCard
   useEffect(() => {
@@ -69,8 +48,8 @@ const ProjectsCard = () => {
           style={styles.image}
         />
         <h2 style={styles.title}>{projects[currentProject].title}</h2>
-        <p style={styles.description}>{projects[currentProject].description}</p>
-        <a href={projects[currentProject].link} style={styles.viewButton}>
+        <p style={styles.description}>{projects[currentProject].shortDescription}</p>
+        <a href={'/projects'} style={styles.viewButton}>
           Projects
         </a>
       </div>

@@ -1,0 +1,144 @@
+/* Import Google Font */
+
+.skillset-page {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+}
+  
+
+/* Animated Background */
+.animated-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #0a0a0a, #1a1a1a);
+  overflow: hidden;
+  z-index: -1;
+}
+
+.animated-background::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+  animation: animateBG 20s linear infinite;
+}
+
+@keyframes animateBG {
+  from {
+    transform: translate(0, 0);
+  }
+  to {
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Carousel Styles */
+.carousel-container {
+  margin: 80px 0;
+  position: relative;
+}
+
+.carousel-title {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 20px;
+  gap: 40px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  position: relative;
+  perspective: 1000px;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.skill-card {
+  flex: 0 0 auto;
+  width: 250px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  color: #fff;
+  text-align: center;
+  scroll-snap-align: center;
+  transition: transform 0.3s, opacity 0.3s;
+  opacity: 0.8;
+  transform: scale(0.9);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.skill-card .skill-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+  transition: transform 0.3s;
+}
+
+.skill-card .skill-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.carousel:hover .skill-card {
+  opacity: 0.6;
+  transform: scale(0.9);
+}
+
+.carousel .skill-card:hover {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .skill-card {
+    width: 200px;
+    height: 250px;
+  }
+  .skill-card .skill-icon {
+    font-size: 60px;
+  }
+  .skill-card .skill-name {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .skill-card {
+    width: 150px;
+    height: 200px;
+  }
+  .skill-card .skill-icon {
+    font-size: 50px;
+  }
+  .skill-card .skill-name {
+    font-size: 1.1rem;
+  }
+}

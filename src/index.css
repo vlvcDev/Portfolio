@@ -1,12 +1,14 @@
-/* src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');/* src/index.css */
 body, html, #root {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Arial', sans-serif;
   overflow-y: auto;
   overflow-X: hidden; 
   scrollbar-width: none;
+  background-color: #0a0a0a;
+  font-family: 'Raleway', sans-serif;
+
 }
 
 

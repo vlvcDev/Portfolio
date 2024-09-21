@@ -1,0 +1,19 @@
+/* Cursor.css */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    pointer-events: none;
+    z-index: 1000;
+    overflow: visible;
+    mix-blend-mode: difference;
+  }
+  
+  @media (hover: none), (pointer: coarse) {
+    .custom-cursor {
+      display: none;
+    }
+  }
+  

@@ -24,7 +24,9 @@ const projectsData = [
     shortDescription: 'A hackathon-winning website that aims to make practicing...',
     image: require('../assets/hackathon.png'),
     date: '2023-06-10',
+    github: 'a'
   },
+
 ];
 
 const ProjectsPage = () => {
@@ -34,8 +36,14 @@ const ProjectsPage = () => {
     setExpandedProjectId(expandedProjectId === id ? null : id);
   };
 
+  const calculateHeight = () => {
+    const baseHeight = 30; // 20vh base for each project
+    const additionalHeight = 20; // Additional 20vh for padding or spacing
+    return `${projectsData.length * baseHeight + additionalHeight}vh`;
+  };
+
   return (
-    <div style={styles.pageContainer}>
+    <div style={{ ...styles.pageContainer, height: calculateHeight() }}>
       <h1 style={styles.pageTitle}>Projects</h1>
       <div style={styles.container}>
         {projectsData.map((project) => (
@@ -55,6 +63,18 @@ const ProjectsPage = () => {
                 <span style={styles.readMore}>Read more...</span>
               )}
             </div>
+            {/* Conditionally render the GitHub button */}
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.githubButton}
+                onClick={(e) => e.stopPropagation()} // Prevent card click on button click
+              >
+                GitHub
+              </a>
+            )}
           </div>
         ))}
       </div>
@@ -63,80 +83,92 @@ const ProjectsPage = () => {
 };
 
 const styles = {
-    pageContainer: {
-      width: '100vw',
-      height: '100vh',
-      backgroundColor: '#000', // Black background for the whole page
-      paddingTop: '50px', // Add padding to give space between the title and top of the page
-      paddingBottom: '100px',
-      scrollbarWidth: 'none', // Hide scrollbar for aesthetic purposes
-    },
-    pageTitle: {
-      textAlign: 'center',
-      color: '#fff',
-      fontSize: '3rem',
-      fontWeight: 'bold',
-      margin: '20px 0', // Space below the title to push down the content
-    },
-    container: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '20px',
-      padding: '20px',
-      maxWidth: '1200px',
-      margin: '0 auto',
-    },
+  pageContainer: {
+    width: '100vw',
+    backgroundColor: '#0a0a0a', // Black background for the whole page
+    paddingTop: '50px', // Add padding to give space between the title and top of the page
+    paddingBottom: '100px',
+    scrollbarWidth: 'none', // Hide scrollbar for aesthetic purposes
+  },
+  pageTitle: {
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: '3rem',
+    fontWeight: 'bold',
+    margin: '20px 0', // Space below the title to push down the content
+  },
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '20px',
+    padding: '20px',
+    maxWidth: '1200px',
+    margin: '0 auto',
+  },
+  projectCard: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    padding: '15px',
+    borderRadius: '10px',
+    border: '2px solid #fff', // White outline
+    backgroundColor: '#000', // Black card background
+    color: '#fff', // White text
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+  projectImage: {
+    width: '150px',
+    height: '150px',
+    objectFit: 'cover',
+    borderRadius: '8px',
+    marginRight: '20px',
+  },
+  projectContent: {
+    flex: 1,
+  },
+  projectTitle: {
+    fontSize: '1.5rem',
+    fontWeight: 'bold',
+    margin: '0 0 10px 0',
+  },
+  projectDate: {
+    fontSize: '0.9rem',
+    color: '#fff',
+    marginBottom: '10px',
+  },
+  projectDescription: {
+    fontSize: '1rem',
+    marginBottom: '10px',
+  },
+  readMore: {
+    color: '#007BFF',
+    cursor: 'pointer',
+  },
+  githubButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '15px',
+    padding: '8px 12px',
+    backgroundcolor: '#0a0a0a',
+    textDecoration: 'none',
+    borderRadius: '5px',
+    border: '1px solid #fff',
+    color: '#fff',
+    fontSize: '0.9rem',
+  },
+  '@media (max-width: 768px)': {
     projectCard: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      padding: '15px',
-      borderRadius: '10px',
-      border: '2px solid #fff', // White outline
-      backgroundColor: '#000', // Black card background
-      color: '#fff', // White text
-      cursor: 'pointer',
-      transition: 'background-color 0.3s ease',
+      flexDirection: 'column',
     },
     projectImage: {
-      width: '150px',
-      height: '150px',
-      objectFit: 'cover',
-      borderRadius: '8px',
-      marginRight: '20px',
+      width: '100%',
+      height: '200px',
+      marginBottom: '15px',
     },
-    projectContent: {
-      flex: 1,
-    },
-    projectTitle: {
-      fontSize: '1.5rem',
-      fontWeight: 'bold',
-      margin: '0 0 10px 0',
-    },
-    projectDate: {
-      fontSize: '0.9rem',
-      color: '#fff',
-      marginBottom: '10px',
-    },
-    projectDescription: {
-      fontSize: '1rem',
-      marginBottom: '10px',
-    },
-    readMore: {
-      color: '#007BFF',
-      cursor: 'pointer',
-    },
-    '@media (max-width: 768px)': {
-      projectCard: {
-        flexDirection: 'column',
-      },
-      projectImage: {
-        width: '100%',
-        height: '200px',
-        marginBottom: '15px',
-      },
-    },
-  };
-  
+  },
+};
 
 export default ProjectsPage;
+export {projectsData};
