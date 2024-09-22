@@ -7,10 +7,10 @@ import {
   FaHtml5,
   FaGitAlt,
   FaDatabase,
-  FaCss3Alt,
   FaJsSquare,
+  FaJava,
 } from 'react-icons/fa';
-import { SiMongodb, SiExpress, SiDocker, SiJest, SiGraphql, SiFirebase } from 'react-icons/si';
+import { SiMongodb, SiExpress, SiDocker, SiJest, SiGraphql, SiFirebase, SiCplusplus, SiC, SiDart, SiArm } from 'react-icons/si';
 import { gsap } from 'gsap';
 import '../styles/SkillsetPage.css';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -23,8 +23,12 @@ const SkillsetPage = () => {
     languages: [
       { name: 'JavaScript', icon: <FaJsSquare /> },
       { name: 'Python', icon: <FaPython /> },
-      { name: 'HTML5', icon: <FaHtml5 /> },
-      { name: 'CSS3', icon: <FaCss3Alt /> },
+      { name: 'Java', icon: <FaJava />},
+      { name: 'C++', icon: <SiCplusplus />},
+      { name: 'C', icon: <SiC />},
+      { name: 'Dart', icon: <SiDart />},
+      { name: 'ARM Assembly', icon: <SiArm />},
+      { name: 'HTML/CSS', icon: <FaHtml5 /> },
     ],
     frameworks: [
       { name: 'React', icon: <FaReact /> },
@@ -43,38 +47,82 @@ const SkillsetPage = () => {
       { name: 'Jest', icon: <SiJest /> },
     ],
   };
-
   const SkillCarousel = ({ title, skills }) => {
     const carouselRef = useRef(null);
-
+    const isDown = useRef(false);
+    const startX = useRef(0);
+    const scrollLeft = useRef(0);
+  
     useEffect(() => {
-      const cards = carouselRef.current.querySelectorAll('.skill-card');
-
+      const carousel = carouselRef.current;
+      const cards = carousel.querySelectorAll('.skill-card');
+  
+      // Drag-to-scroll functionality
+      carousel.addEventListener('mousedown', handleMouseDown);
+      carousel.addEventListener('mouseleave', handleMouseLeave);
+      carousel.addEventListener('mouseup', handleMouseUp);
+      carousel.addEventListener('mousemove', handleMouseMove);
+  
       cards.forEach((card) => {
         // 3D Tilt Effect on Hover
         card.addEventListener('mousemove', handleTilt);
         card.addEventListener('mouseenter', handleMouseEnter);
-        card.addEventListener('mouseleave', handleMouseLeave);
-
+        card.addEventListener('mouseleave', handleMouseLeaveCard);
+  
         // Micro-Interaction: Icon Spin on Hover
         const icon = card.querySelector('.skill-icon');
+        <div className="skill-icon" style={{ color: skills.color }}>
+          {skills.icon}
+        </div>
+      
         card.addEventListener('mouseenter', () => {
-          gsap.to(icon, { rotation: 360, duration: 1, ease: 'elastic.out(1, 0.3)' });
+          gsap.to(icon, { rotation: 15, duration: 0.2, ease: 'expo.out' });
         });
         card.addEventListener('mouseleave', () => {
           gsap.set(icon, { rotation: 0 });
         });
       });
-
+  
       return () => {
+        carousel.removeEventListener('mousedown', handleMouseDown);
+        carousel.removeEventListener('mouseleave', handleMouseLeave);
+        carousel.removeEventListener('mouseup', handleMouseUp);
+        carousel.removeEventListener('mousemove', handleMouseMove);
+  
         cards.forEach((card) => {
           card.removeEventListener('mousemove', handleTilt);
           card.removeEventListener('mouseenter', handleMouseEnter);
-          card.removeEventListener('mouseleave', handleMouseLeave);
+          card.removeEventListener('mouseleave', handleMouseLeaveCard);
         });
       };
-    }, []);
-
+    },);
+  
+    const handleMouseDown = (e) => {
+      e.preventDefault();
+      isDown.current = true;
+      carouselRef.current.classList.add('dragging');
+      startX.current = e.pageX - carouselRef.current.offsetLeft;
+      scrollLeft.current = carouselRef.current.scrollLeft;
+    };
+  
+    const handleMouseLeave = () => {
+      isDown.current = false;
+      carouselRef.current.classList.remove('dragging');
+    };
+  
+    const handleMouseUp = () => {
+      isDown.current = false;
+      carouselRef.current.classList.remove('dragging');
+    };
+  
+    const handleMouseMove = (e) => {
+      if (!isDown.current) return;
+      e.preventDefault();
+      const x = e.pageX - carouselRef.current.offsetLeft;
+      const walk = (x - startX.current) * 1; // Multiply by a factor for speed
+      carouselRef.current.scrollLeft = scrollLeft.current - walk;
+    };
+  
     const handleTilt = (e) => {
       const card = e.currentTarget;
       const rect = card.getBoundingClientRect();
@@ -86,15 +134,15 @@ const SkillsetPage = () => {
         ease: 'power1.out',
       });
     };
-
+  
     const handleMouseEnter = (e) => {
       gsap.to(e.currentTarget, { willChange: 'transform' });
     };
-
-    const handleMouseLeave = (e) => {
+  
+    const handleMouseLeaveCard = (e) => {
       gsap.to(e.currentTarget, { rotationY: 0, rotationX: 0, ease: 'power1.out' });
     };
-
+  
     return (
       <div className="carousel-container">
         <h2 className="carousel-title">{title}</h2>
@@ -109,23 +157,18 @@ const SkillsetPage = () => {
       </div>
     );
   };
-
-  // Custom Cursor State
-  const cursorRef = useRef(null);
-
+  
   useEffect(() => {
-
-
     return () => {
     };
   }, []);
 
   return (
     <div className="skillset-page">
-      {/* Animated Background */}
-      <div className="animated-background"></div>
+      <div className="skillset-header">
+        <p>Explore the technologies I have had experience with</p>
+      </div>
 
-      {/* Your Skill Carousels */}
       <SkillCarousel title="Languages" skills={skillsData.languages} />
       <SkillCarousel title="Frameworks" skills={skillsData.frameworks} />
       <SkillCarousel title="APIs" skills={skillsData.apis} />

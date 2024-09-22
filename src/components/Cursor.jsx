@@ -63,11 +63,11 @@ const Cursor = () => {
         {/* SVG filter definitions will go here */}
         <defs>
           <filter id="wavy">
-            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="3" result="noise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.02" numOctaves="1" result="noise">
               <animate
                 attributeName="baseFrequency"
                 dur="32s"
-                values="0.02; 2.15; 0.02"
+                values="0.02; 0.95; 0.02"
                 repeatCount="indefinite"
               />
             </feTurbulence>
@@ -77,7 +77,7 @@ const Cursor = () => {
         <circle
           cx="25"
           cy="25"
-          r="16"
+          r="26"
           fill="none"
           stroke="#ffffff"
           strokeWidth="2"

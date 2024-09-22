@@ -128,17 +128,17 @@ const Navbar = () => {
                 <FaLinkedin size={'4vh'} /> {/* LinkedIn icon */}
               </div>
             </a>
-            <div ref={leftButtonRef} style={styles.button}>
+            <Link to="/projects" ref={leftButtonRef} style={styles.button}>
               Projects
-            </div>
-            <div ref={containerRef} style={styles.textContainer} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            </Link>
+            <Link to="/about" ref={containerRef} style={styles.textContainer} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
               <span ref={textRef} style={styles.text}>
                 VLVC
               </span>
-            </div>
-            <div ref={rightButtonRef} style={styles.button}>
+            </Link>
+            <Link to="/skillset" ref={rightButtonRef} style={styles.button}>
               Skillset
-            </div>
+            </Link>
             <a href="https://github.com/vlvcDev" target="_blank" rel="noopener noreferrer" style={styles.buttonLink}>
               <div style={styles.button}>
                 <FaGithub size={'4vh'} /> {/* GitHub icon */}
@@ -159,11 +159,11 @@ const Navbar = () => {
             <div style={styles.mobileMenu}>
               <Link to="/" style={styles.mobileMenuItem}>Home</Link>
               <Link to="/projects" style={styles.mobileMenuItem}>Projects</Link>
-              <Link to="/technologies" style={styles.mobileMenuItem}>Technologies</Link>
+              <Link to="/skillset" style={styles.mobileMenuItem}>Skillset</Link>
               <Link to="/about" style={styles.mobileMenuItem}>About</Link>
               <div style={styles.contactInfo}>
                 <p>Contact Info:</p>
-                <a href="mailto:vlvc@example.com" style={styles.contactLink}>vlvc@example.com</a>
+                <a href="mailto:vlvc.dev@gmail.com" style={styles.contactLink}>vlvc.dev@gmail.com</a>
                 <a href="https://linkedin.com/in/vlvcDev" target="_blank" rel="noopener noreferrer" style={styles.contactLink}>
                   <FaLinkedin /> LinkedIn
                 </a>
@@ -183,7 +183,7 @@ const styles = {
   navbar: {
     position: 'fixed',
     top: 0,
-    left: '50%',
+    left: '49.7%',
     transform: 'translateX(-50%)',
     height: '5.6vh',
     backgroundColor: '#0a0a0a',
@@ -221,6 +221,7 @@ const styles = {
     alignItems: 'center',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
+    textDecoration: 'none',
   },
   text: {
     color: '#000',

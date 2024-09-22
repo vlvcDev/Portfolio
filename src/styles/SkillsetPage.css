@@ -5,47 +5,26 @@
   overflow: hidden;
   color: #fff;
 }
-  
 
-/* Animated Background */
-.animated-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, #0a0a0a, #1a1a1a);
-  overflow: hidden;
-  z-index: -1;
+.skillset-header {
+  text-align: center;
+  margin-top: 60px;
+  color: #fff;
 }
 
-.animated-background::before {
-  content: '';
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.02) 0,
-    rgba(255, 255, 255, 0.02) 1px,
-    transparent 1px,
-    transparent 5px
-  );
-  animation: animateBG 20s linear infinite;
+.skillset-header h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
 }
 
-@keyframes animateBG {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(-50%, -50%);
-  }
+.skillset-header p {
+  font-size: 1.5rem;
+  color: #ccc;
 }
 
 /* Carousel Styles */
 .carousel-container {
-  margin: 80px 0;
+  margin: 40px 0;
   position: relative;
 }
 
@@ -66,7 +45,13 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   position: relative;
-  perspective: 1000px;
+  perspective: 800px;
+  cursor: grab;
+  user-select: none;
+}
+
+.carousel.dragging {
+  cursor: grabbing;
 }
 
 .carousel::-webkit-scrollbar {
@@ -77,7 +62,7 @@
   flex: 0 0 auto;
   width: 250px;
   height: 300px;
-  background: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
   backdrop-filter: blur(10px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -95,6 +80,12 @@
   will-change: transform;
 }
 
+.skill-card,
+.skill-card * {
+  user-select: none;
+}
+
+
 .skill-card .skill-icon {
   font-size: 80px;
   margin-bottom: 20px;
@@ -109,11 +100,14 @@
 .carousel:hover .skill-card {
   opacity: 0.6;
   transform: scale(0.9);
+
 }
 
 .carousel .skill-card:hover {
   opacity: 1;
   transform: scale(1);
+  background: linear-gradient(135deg, rgba(50, 150, 255, 0.1), rgba(255, 255, 255, 0));
+
 }
 
 /* Responsive Design */
