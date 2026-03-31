@@ -333,7 +333,7 @@ export default function Home() {
         pulses.push({
           edge: edges[Math.floor(Math.random() * edges.length)],
           t: 0,
-          speed: 0.018 + Math.random() * 0.05,
+          speed: 0.048 + Math.random() * 0.03,
         });
         nextSpawn = time + 280 + Math.random() * 280;
       }
@@ -385,7 +385,7 @@ export default function Home() {
         }
         ctx.beginPath();
         ctx.arc(n.x + n.ox, n.y + n.oy, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(240,240,240,${0.1 + n.glow * 0.3})`;
+        ctx.fillStyle = `rgba(200,200,245,${0.1 + n.glow * 0.3})`;
         ctx.fill();
       });
 
