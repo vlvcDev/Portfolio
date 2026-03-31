@@ -188,6 +188,17 @@ body {
   color: var(--red);
 }
 
+/* ─── NEURAL NETWORK CANVAS ──────────────────────── */
+
+.nn-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
 /* ─── HERO ────────────────────────────────────────── */
 
 .hero {
@@ -205,6 +216,8 @@ body {
 
 /* right column — eye, terminal, widgets */
 .hero-right {
+  position: relative;
+  z-index: 1;
   flex: 1;
   height: calc(100vh - 52px); /* definite height so flex-end works */
   overflow: hidden;
@@ -457,6 +470,7 @@ body {
   --title-gap: 240px;
 
   position: relative;
+  z-index: 1;
   width: clamp(320px, 55%, 730px);
   min-height: calc(100vh - 52px - 2rem - 2rem);
   margin-top: 2rem;

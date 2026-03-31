@@ -141,6 +141,7 @@ export default function Home() {
   const unmountTimerRef = useRef<number | null>(null);
   const idleHandleRef = useRef<number | null>(null);
   const bootTermRef = useRef<HTMLDivElement | null>(null);
+  const nnCanvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -262,6 +263,144 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
+  // ── NEURAL NETWORK BACKGROUND ──
+  useEffect(() => {
+    const canvas = nnCanvasRef.current as HTMLCanvasElement;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    if (!ctx) return;
+
+    interface NNode { x: number; y: number; glow: number; ox: number; oy: number }
+    interface Edge { a: NNode; b: NNode }
+    interface Pulse { edge: Edge; t: number; speed: number }
+
+    const LAYERS = [4, 5, 6, 7, 7, 6, 5, 4];
+    let flat: NNode[] = [];
+    let edges: Edge[] = [];
+    const pulses: Pulse[] = [];
+    let rafId = 0;
+    let nextSpawn = 0;
+    let cancelled = false;
+
+    function build() {
+      const W = canvas.offsetWidth;
+      const H = canvas.offsetHeight;
+      const mx = W * 0.04;
+      const my = H * 0.08;
+      const uw = W - mx * 2;
+      const uh = H - my * 2;
+
+      const layers: NNode[][] = LAYERS.map((count, li) => {
+        const x = mx + (uw / (LAYERS.length - 1)) * li;
+        return Array.from({ length: count }, (_, ni) => ({
+          x,
+          y: my + (uh / (count + 1)) * (ni + 1),
+          glow: 0, ox: 0, oy: 0,
+        }));
+      });
+
+      flat = layers.flat();
+      edges = [];
+      for (let li = 0; li < layers.length - 1; li++) {
+        const from = layers[li];
+        const to = layers[li + 1];
+        from.forEach(a => {
+          to.forEach(b => {
+            if (Math.random() < Math.min(1, 22 / (from.length * to.length))) {
+              edges.push({ a, b });
+            }
+          });
+        });
+      }
+    }
+
+    function resize() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      build();
+      pulses.length = 0;
+    }
+
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+
+    function draw(time: number) {
+      if (cancelled) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (time >= nextSpawn && edges.length && pulses.length < 12) {
+        pulses.push({
+          edge: edges[Math.floor(Math.random() * edges.length)],
+          t: 0,
+          speed: 0.018 + Math.random() * 0.05,
+        });
+        nextSpawn = time + 280 + Math.random() * 280;
+      }
+
+      // edges
+      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = 'rgba(240,240,240,0.05)';
+      edges.forEach(({ a, b }) => {
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      });
+
+      // pulses
+      for (let i = pulses.length - 1; i >= 0; i--) {
+        const p = pulses[i];
+        p.t += p.speed;
+        if (p.t >= 1) {
+          p.edge.b.glow = 1;
+          pulses.splice(i, 1);
+          continue;
+        }
+        const x = p.edge.a.x + (p.edge.b.x - p.edge.a.x) * p.t;
+        const y = p.edge.a.y + (p.edge.b.y - p.edge.a.y) * p.t;
+        const angle = Math.atan2(p.edge.b.y - p.edge.a.y, p.edge.b.x - p.edge.a.x);
+        const hw = 12;
+        const hh = 1.5;
+        const grad = ctx.createLinearGradient(-hw, 0, hw, 0);
+        grad.addColorStop(0,   'rgba(192,57,43,0)');
+        grad.addColorStop(0.5, 'rgba(192,57,43,0.55)');
+        grad.addColorStop(1,   'rgba(192,57,43,0)');
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle);
+        ctx.fillStyle = grad;
+        ctx.fillRect(-hw, -hh, hw * 2, hh * 2);
+        ctx.restore();
+      }
+
+      // nodes
+      flat.forEach(n => {
+        n.glow = Math.max(0, n.glow - 0.02);
+        if (n.glow > 0) {
+          n.ox = (Math.random() * 2 - 1) * n.glow * 1.12;
+          n.oy = (Math.random() * 2 - 1) * n.glow * 1.12;
+        } else {
+          n.ox = 0; n.oy = 0;
+        }
+        ctx.beginPath();
+        ctx.arc(n.x + n.ox, n.y + n.oy, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(240,240,240,${0.1 + n.glow * 0.3})`;
+        ctx.fill();
+      });
+
+      rafId = requestAnimationFrame(draw);
+    }
+
+    rafId = requestAnimationFrame(draw);
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(rafId);
+      ro.disconnect();
+    };
+  }, []);
+
   return (
     <>
       {/* ── LOADER ── */}
@@ -315,6 +454,7 @@ export default function Home() {
 
       {/* ── HERO ── */}
       <div className="hero">
+      <canvas ref={nnCanvasRef} className="nn-canvas" aria-hidden="true" />
 <div className="hero-frame">
   <div className="hero-frame-title">PROFILE</div>
 
