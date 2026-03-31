@@ -335,9 +335,7 @@ export default function Home() {
             <h1 className="hero-name">
               VINCENT
               <br />
-              CORDOVA<span className="cursor" aria-hidden="true">
-                █
-              </span>
+              CORDOVA<span className="cursor" aria-hidden="true">█</span>
             </h1>
           </div>
 
